@@ -4,7 +4,10 @@
 
 --]]
 --------------------------------------------------
-local M = {}
+local setmetatable = setmetatable
+
+--------------------------------------------------
+local M = { mt = {} }
 
 ---Returns the json string equivilent.
 ---@param obj any #The object to turn.
@@ -20,7 +23,7 @@ function M.toJson(obj, pretty, indent, depth, depthLimit)
 
     local t = type(obj)
 
-    if t == "table" then
+    if t == "table" and depth < depthLimit then
         return M.tblToJson(obj, pretty, indent, depth, depthLimit)
     elseif t == "string" then
         return "\"" .. obj .. "\""
@@ -76,4 +79,9 @@ function M.tblToJson(tbl, pretty, indent, depth, depthLimit)
     return result .. prefixIndent .. "}"
 end
 
-return M
+--------------------------------------------------
+function M.mt:__call(...)
+    return M.toJson(...)
+end
+
+return setmetatable(M, M.mt)

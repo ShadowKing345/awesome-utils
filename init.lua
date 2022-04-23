@@ -10,8 +10,13 @@ local type  = type
 local aButton = require "awful.button"
 local aKey    = require "awful.key"
 
+local relpath = (...):match ".*"
+
 --------------------------------------------------
-local utils = { button_names = aButton.names }
+local utils = {
+    button_names = aButton.names,
+    toJson = require(relpath .. ".to-json"),
+}
 
 ---Creates a pretty JSON string from an object recursively.
 ---*Note: All array objects enter a $Array Field instead due to how lua combines dictionarys and arrays.*
