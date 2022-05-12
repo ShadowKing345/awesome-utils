@@ -1,11 +1,9 @@
---------------------------------------------------
---
---      A collection of utility function used throught the project.
---
---------------------------------------------------
-local math  = math
-local pairs = pairs
-local type  = type
+--[[
+
+        A collection of utility function used throught the project.
+
+--]]
+local math = math
 
 local aButton = require "awful.button"
 local aKey    = require "awful.key"
@@ -13,9 +11,10 @@ local aKey    = require "awful.key"
 local relpath = (...):match ".*"
 
 --------------------------------------------------
-local utils = {
+local M = {
     button_names = aButton.names,
-    toJson = require(relpath .. ".to-json"),
+    toJson       = require(relpath .. ".to-json"),
+    table        = require(relpath .. ".table"),
 }
 
 ---Clamps a number between two values
@@ -23,25 +22,33 @@ local utils = {
 ---@param min number #Minimum number
 ---@param max number #Maximum number
 ---@return number
-function utils.clamp(number, min, max)
+function M.clamp(number, min, max)
     return math.max(math.min(number, max), min)
 end
 
 ---Creates a Awful Button table
 ---@param args AButton
 ---@return table
-function utils.aButton(args)
+function M.aButton(args)
     return aButton(args.modifiers, args.button, args.press and args.press or args.callback, args.release)
 end
 
 ---Creates a Awful Key table
 ---@param arg AKey
 ---@return table
-function utils.aKey(arg)
+function M.aKey(arg)
     return aKey(arg.modifiers, arg.key, arg.callback, arg.description)
 end
 
-return utils
+---Generates a UUID. Note that this most likely does not follow the standard specifications.
+---@return string
+function M.uuid()
+    return string.gsub("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx", "[xy]", function(c)
+        return string.format("%x", (c == "x") and math.random(0, 0xf) or math.random(8, 0xb))
+    end)
+end
+
+return M
 --------------------------------------------------
 ---@class AKey
 ---@field modifiers string[] #Collection of modifier keys.
