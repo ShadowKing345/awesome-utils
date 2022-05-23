@@ -27,6 +27,8 @@ function M.toJson(obj, pretty, indent, depth, depthLimit)
         return M.tblToJson(obj, pretty, indent, depth, depthLimit)
     elseif t == "string" then
         return "\"" .. obj .. "\""
+    elseif t == "nil" then
+        return "null"
     else
         return tostring(obj)
     end
