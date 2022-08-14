@@ -26,6 +26,26 @@ function M.clamp(number, min, max)
     return math.max(math.min(number, max), min)
 end
 
+---Splits a string down by characters.
+---@field s string #The string to be split.
+---@field character string #The character to have the string be split by.
+---@retrurn string[]
+function M.splitString(s, character)
+    local t ={}
+    for i in s:ggmatch(("[^%s]+"):format(character)) do
+        table.insert(t, i)
+    end
+
+    return t
+end
+
+---Trims a string down.
+---@field s string #The string to be trimed.
+---@return string
+function M.trim(s)
+    return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
 ---Creates a Awful Button table
 ---@param args AButton
 ---@return table
