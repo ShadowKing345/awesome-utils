@@ -31,8 +31,8 @@ end
 ---@field character string #The character to have the string be split by.
 ---@retrurn string[]
 function M.splitString(s, character)
-    local t ={}
-    for i in s:ggmatch(("[^%s]+"):format(character)) do
+    local t = {}
+    for i in s:gmatch(("[^%s]+"):format(character)) do
         table.insert(t, i)
     end
 
@@ -63,9 +63,25 @@ end
 ---Generates a UUID. Note that this most likely does not follow the standard specifications.
 ---@return string
 function M.uuid()
-    return string.gsub("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx", "[xy]", function(c)
+    return ("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"):gsub("[xy]", function(c)
         return string.format("%x", (c == "x") and math.random(0, 0xf) or math.random(8, 0xb))
     end)
+end
+
+---Deep merges tables.
+---@param target table #Table that source values are merged too.
+---@param source table #Table whos values will be merged to target.
+---@return table #The merged table.
+function M.deepMerge(target, source)
+    for key, value in pairs(source) do
+        if type(value) == "table" then
+            target[key] = M.deepMerge(target[key], value)
+        else
+            target[key] = value
+        end
+    end
+
+    return target
 end
 
 return M
