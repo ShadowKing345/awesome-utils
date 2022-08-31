@@ -27,8 +27,8 @@ function M.clamp(number, min, max)
 end
 
 ---Splits a string down by characters.
----@field s string #The string to be split.
----@field character string #The character to have the string be split by.
+---@param s string #The string to be split.
+---@param character string #The character to have the string be split by.
 ---@retrurn string[]
 function M.splitString(s, character)
     local t = {}
@@ -40,10 +40,12 @@ function M.splitString(s, character)
 end
 
 ---Trims a string down.
----@field s string #The string to be trimed.
+---@param s string #The string to be trimed.
+---@param c string? #To be trimmed.
 ---@return string
-function M.trim(s)
-    return (s:gsub("^%s*(.-)%s*$", "%1"))
+function M.trim(s, c)
+    c = c or "%s"
+    return (s:gsub(("^%s*(.-)%s*$"):format(c, c), "%1"))
 end
 
 ---Creates a Awful Button table
